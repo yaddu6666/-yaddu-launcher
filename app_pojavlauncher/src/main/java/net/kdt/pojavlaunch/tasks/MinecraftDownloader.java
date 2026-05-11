@@ -259,7 +259,7 @@ public class MinecraftDownloader {
         }
 
         if(activity != null && !NewJREUtil.installNewJreIfNeeded(activity, verInfo)){
-            return false;
+            Log.w("MinecraftDownloader", "JRE installation failed, proceeding anyway...");
         }
 
         JAssets assets = downloadAssetsIndex(verInfo);
