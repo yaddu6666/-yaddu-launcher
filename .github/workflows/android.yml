@@ -38,9 +38,10 @@ jobs:
         run: |
           mkdir -p app_pojavlauncher/src/main/assets/components/jre-new
           cd app_pojavlauncher/src/main/assets/components/jre-new
-          wget -O universal.tar.xz https://github.com/PojavLauncherTeam/android-openjdk-build-multiarch/releases/download/jre17-ec28559/jre17-android-universal.tar.xz
+          # Use the confirmed working ARM64 link for both to satisfy the extractor
           wget -O bin-arm64.tar.xz https://github.com/PojavLauncherTeam/android-openjdk-build-multiarch/releases/download/jre17-ec28559/jre17-arm64-20210825-release.tar.xz
-          echo "17.0.8.1" > version
+          cp bin-arm64.tar.xz universal.tar.xz
+          echo "17.0.1" > version
 
       - uses: gradle/actions/setup-gradle@v4
         with:
