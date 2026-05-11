@@ -49,7 +49,7 @@ public class MinecraftAccount {
     }
 
     public boolean isDemo(){
-        return username.startsWith("Demo.");
+        return false;
     }
     
     public void updateSkinFace() {

@@ -1416,14 +1416,10 @@ public final class Tools {
                     }
                 }).show();
     }
-
-    public static void switchDemo(boolean isDemo){
-        if(isDemo) {
-            DIR_GAME_NEW = DIR_DATA + "/demo/.minecraft";
-        } else {
-            DIR_GAME_NEW = DIR_GAME_HOME + "/.minecraft";
-        }
-        DIR_HOME_VERSION = DIR_GAME_NEW + "/versions";
+public static void switchDemo(boolean isDemo){
+    DIR_GAME_NEW = DIR_GAME_HOME + "/.minecraft";
+    ASSETS_PATH = DIR_GAME_NEW + "/assets";
+}
         DIR_HOME_LIBRARY = DIR_GAME_NEW + "/libraries";
         ASSETS_PATH = DIR_GAME_NEW + "/assets";
         OBSOLETE_RESOURCES_PATH = DIR_GAME_NEW + "/resources";
