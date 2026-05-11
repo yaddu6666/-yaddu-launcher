@@ -15,7 +15,7 @@ import org.apache.commons.io.*;
 @SuppressWarnings("IOStreamConstructor")
 public class DownloadUtils {
     public static final String USER_AGENT = Tools.APP_NAME;
-    private static final int TIME_OUT = 10000;
+    private static final int TIME_OUT = 30000;
 
     public static void download(String url, OutputStream os) throws IOException {
         download(new URL(url), os);
@@ -153,10 +153,15 @@ public class DownloadUtils {
         T result = null;
         while (attempts < 5 && !fileOkay){
             attempts++;
-            downloadFile(downloadFunction);
-            fileOkay = verifyFile(outputFile, sha1);
+            try {
+                result = downloadFile(downloadFunction);
+                fileOkay = verifyFile(outputFile, sha1);
+            } catch (IOException e) {
+                if (attempts >= 5) throw e;
+                Log.w("DownloadUtils", "Download attempt " + attempts + " failed for " + outputFile.getName() + ", retrying...", e);
+            }
         }
-        if(!fileOkay) throw new SHA1VerificationException("SHA1 verifcation failed after 5 download attempts");
+        if(!fileOkay) throw new SHA1VerificationException("SHA1 verification failed after 5 download attempts");
         return result;
     }
 
