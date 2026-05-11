@@ -34,14 +34,27 @@ jobs:
           cd app_pojavlauncher/libs
           wget https://github.com/PojavLauncherTeam/LTW/releases/latest/download/ltw-release.aar
 
-      - name: Embed JRE 17 (ARM64)
+      - name: Embed JREs (Multi-Arch)
         run: |
+          # JRE 17
           mkdir -p app_pojavlauncher/src/main/assets/components/jre-new
           cd app_pojavlauncher/src/main/assets/components/jre-new
-          # Use the confirmed working ARM64 link for both to satisfy the extractor
           wget -O bin-arm64.tar.xz https://github.com/PojavLauncherTeam/android-openjdk-build-multiarch/releases/download/jre17-ec28559/jre17-arm64-20210825-release.tar.xz
-          cp bin-arm64.tar.xz universal.tar.xz
+          wget -O bin-arm.tar.xz https://github.com/PojavLauncherTeam/android-openjdk-build-multiarch/releases/download/jre17-ec28559/jre17-arm-20210914-release.tar.xz
+          wget -O bin-x86_64.tar.xz https://github.com/PojavLauncherTeam/android-openjdk-build-multiarch/releases/download/jre17-ec28559/jre17-x86_64-20210825-release.tar.xz
+          # Create a dummy universal tar.xz to satisfy the installer
+          mkdir empty && tar -cJf universal.tar.xz -C empty .
           echo "17.0.1" > version
+          cd ../../../../../
+
+          # JRE 8 (Internal)
+          mkdir -p app_pojavlauncher/src/main/assets/components/jre
+          cd app_pojavlauncher/src/main/assets/components/jre
+          wget -O bin-arm64.tar.xz https://github.com/PojavLauncherTeam/android-openjdk-build-multiarch/releases/download/jre8-40df388/jre8-arm64-20220811-release.tar.xz
+          # Reuse ARM64 as dummy for other archs if needed, or just skip
+          # The extractor needs a universal.tar.xz too
+          mkdir empty8 && tar -cJf universal.tar.xz -C empty8 .
+          echo "8u345" > version
 
       - uses: gradle/actions/setup-gradle@v4
         with:

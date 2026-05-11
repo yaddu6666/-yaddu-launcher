@@ -303,8 +303,12 @@ public final class Tools {
         }
 
 
-        Runtime runtime = MultiRTUtils.forceReread(Tools.pickRuntime(minecraftProfile, versionJavaRequirement));
         JMinecraftVersionList.Version versionInfo = Tools.getVersionInfo(versionId);
+        if (!NewJREUtil.installNewJreIfNeeded(activity, versionInfo)) {
+            return;
+        }
+
+        Runtime runtime = MultiRTUtils.forceReread(Tools.pickRuntime(minecraftProfile, versionJavaRequirement));
 
 
         // Pre-process specific files
